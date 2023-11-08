@@ -5,5 +5,5 @@ How to compile
 ```
 bison -d parser.y
 flex lexer.l
-gcc -o parser parser.tab.c lex.yy.c error.c -ll
+gcc -o parser parser.tab.c lex.yy.c -ll
 ```
