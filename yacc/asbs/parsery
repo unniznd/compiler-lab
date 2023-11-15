@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+int count_a = 0;
+int count_b = 0;
+%}
+
+%token A B
+
+%%
+
+start: expr { if (count_a > 0 && count_b > 0) printf("Valid\n"); else printf("Invalid\n"); }
+      ;
+
+expr: A expr { count_a++; }
+    | B expr { count_b++; }
+    | /* empty */ { /* epsilon */ }
+    ;
+
+%%
+
+int main() {
+    yyparse();
+    return 0;
+}
+
+int yywrap() {
+    return 1;
+}
