@@ -4,15 +4,15 @@
 
 %%
 
-a       { return A; }
-b       { return B; }
-c       { return C; }
-d       { return D; }
-\n      { return 0; }
-.       { return yytext[0]; }
+a { return A; }
+b { return B; }
+c { return C; }
+d { return D; }
+\n { return EOL; }
+. { return yytext[0]; }
 
 %%
 
-int yywrap() {
+int yywrap(void) {
     return 1;
 }
