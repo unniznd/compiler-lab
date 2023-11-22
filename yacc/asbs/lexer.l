@@ -1,13 +1,12 @@
 %{
-#include "y.tab.h"
+#include "parser.tab.h"
 %}
 
 %%
 
-a       { return A; }
-b       { return B; }
-\n      { return 0; }
-.       { return yytext[0]; }
+a   { return a; }
+b   { return b; }
+.   { return yytext[0]; }
 
 %%
 
