@@ -1,18 +1,15 @@
 %{
 #include<stdio.h>
-#include "y.tab.h"
+#include "parser.tab.h"
 %}
 
 %token COMMA ID BUILTIN SC NL RP LP FUNCT INT FLOAT CHAR
 
 %%
 
-program: var SC NL { printf("Valid declaration\n"); }
-       | varlist SC NL { printf("Valid declaration\n"); }
-       | FUNCT LP paramlist RP SC NL { printf("Function declaration\n"); }
-       ;
+program: var LP paramlist RP SC { printf("Function declaration\n"); } ;
 
-var: datatype ID { printf("Variable declaration\n"); }
+var: datatype ID 
    ;
 
 datatype: BUILTIN { $$ = BUILTIN; }
@@ -21,19 +18,15 @@ datatype: BUILTIN { $$ = BUILTIN; }
         | CHAR { $$ = CHAR; }
         ;
 
-varlist: varlist COMMA ID { printf("Variable declaration\n"); }
-       | ID { printf("Variable declaration\n"); }
-       ;
 
-paramlist: paramlist COMMA param { printf("Parameter declaration\n"); }
-         | param { printf("Parameter declaration\n"); }
-         | /* empty */ { printf("No parameters\n"); }
+paramlist: paramlist COMMA param 
+         | param 
+         | /* empty */ 
          ;
 
-param: datatype ID { printf("Parameter declaration\n"); }
-     ;
+param: datatype ID ;
 
 %%
-void yyerror(const char *str) { printf("error: %s\n", str); }
+int yyerror(const char *str) { printf("error: %s\n", str); }
 
 int main() { yyparse(); return 0; }
