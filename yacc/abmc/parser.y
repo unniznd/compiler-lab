@@ -1,30 +1,34 @@
 %{
 #include <stdio.h>
-int count_a = 0;
-int count_b = 0;
-int count_c = 0;
-int count_m = 0;
+int yylex(void);
+void yyerror(const char *s);
 %}
 
-%token A B C
+%token A B C 
+
+%%
+start:  S { printf("Valid string\n"); };
+      | error 
+
+S: T X { /* Do nothing for TX */ } ;
+
+T: epsilon { /* Do nothing for ε */ }
+  | A T B { /* Do nothing for aAb */ }
+  ;
+
+X: epsilon { /* Do nothing for ε */ }
+  | B X C { /* Do nothing for bBc */ }
+  ;
+
+epsilon: %empty ;
 
 %%
 
-start: expr { if (count_a == count_b + count_m && count_m > 0) printf("Valid\n"); else printf("Invalid\n"); }
-      ;
-
-expr: A expr B { count_a++; count_b++; }
-    | C expr { count_c++; count_m++; }
-    | /* empty */ { printf("Invalid\n"); }
-    ;
-
-%%
-
-int main() {
-    yyparse();
-    return 0;
+void yyerror(const char *s) {
+    printf("Error: %s\n", s);
 }
 
-int yywrap() {
-    return 1;
+int main(void) {
+    yyparse();
+    return 0;
 }
