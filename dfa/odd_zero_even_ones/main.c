@@ -12,13 +12,13 @@ typedef enum {
 State transition(State current, char input) {
     switch (current) {
         case Q0:
-            return (input == '0') ? Q1 : Q0;
+            return (input == '0') ? Q3 : Q1;
         case Q1:
-            return (input == '0') ? Q0 : Q2;
+            return (input == '0') ? Q2 : Q0;
         case Q2:
-            return (input == '1') ? Q3 : Q2;
+            return (input == '1') ? Q3 : Q1;
         case Q3:
-            return (input == '1') ? Q2 : Q3;
+            return (input == '1') ? Q2 : Q0;
         default:
             return Q0; // Default to the initial state
     }
